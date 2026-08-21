@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071727">
+  <title>自行查核 AI Agent 指揮中心</title>
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="side-rail" aria-label="主要導覽">
+      <div class="brand-plate">
+        <img src="./assets/brand/xx-bank-logo.svg" alt="XX銀行">
+        <span class="brand-short" aria-hidden="true">XX</span>
+      </div>
+
+      <div class="workspace-label">
+        <span>AI Governance</span>
+        <strong>自行查核中心</strong>
+      </div>
+
+      <nav class="primary-nav" aria-label="產品功能">
+        <a class="nav-item active" href="#dashboard" aria-current="page"><span class="nav-glyph" aria-hidden="true">⌁</span><span>指揮中心</span></a>
+        <a class="nav-item" href="#agent-fleet"><span class="nav-glyph" aria-hidden="true">◫</span><span>Agent 艦隊</span></a>
+        <a class="nav-item" href="#evidence-trace"><span class="nav-glyph" aria-hidden="true">◇</span><span>證據軌跡</span></a>
+        <a class="nav-item" href="#risk-findings"><span class="nav-glyph" aria-hidden="true">△</span><span>風險與改善</span></a>
+        <a class="nav-item" href="#executive-summary"><span class="nav-glyph" aria-hidden="true">▤</span><span>高管呈報</span></a>
+      </nav>
+
+      <div class="rail-footer">
+        <div class="boundary-status">
+          <span class="status-beacon" aria-hidden="true"></span>
+          <div><strong>資料邊界正常</strong><span>Bank Private Cloud</span></div>
+        </div>
+        <p>Last sync · 09:42:18</p>
+      </div>
+    </aside>
+
+    <div class="workspace-shell">
+      <header class="command-header">
+        <div class="mobile-brand" aria-hidden="true">XX BANK</div>
+        <div class="page-heading">
+          <span class="eyebrow">CONTROL ROOM / SELF-AUDIT</span>
+          <h1>自行查核 AI Agent 指揮中心</h1>
+          <p>即時掌握 Agent 執行、證據涵蓋、風險發現與改善追蹤</p>
+        </div>
+        <div class="header-actions">
+          <button id="environment" class="environment-toggle" type="button" aria-pressed="true">
+            <span class="status-beacon" aria-hidden="true"></span>
+            <span class="environment-copy"><small>執行環境</small><strong>展示環境 · 唯讀</strong></span>
+          </button>
+          <button id="start-audit" class="primary-action" type="button"><span aria-hidden="true">▶</span>啟動查核</button>
+        </div>
+      </header>
+
+      <nav class="mobile-workspace-nav" aria-label="手機工作區切換">
+        <button type="button" data-view="agents" aria-pressed="false">Agent</button>
+        <button class="active" type="button" data-view="chat" aria-pressed="true">對話</button>
+        <button type="button" data-view="output" aria-pressed="false">產出</button>
+      </nav>
+
+      <main id="dashboard" class="dashboard">
+        <section id="executive-summary" class="summary-grid" aria-label="整體查核摘要">
+          <article class="metric-card metric-card-primary">
+            <div class="metric-topline"><span>運行中 Agent</span><span class="metric-delta positive">全部在線</span></div>
+            <div class="metric-value"><strong id="metric-agents">5</strong><span>/ 5</span></div>
+            <div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-topline"><span>證據涵蓋率</span><span class="metric-delta positive" id="metric-coverage-delta">+4.2%</span></div>
+            <div class="metric-value"><strong id="metric-coverage">91</strong><span>%</span></div>
+            <div class="metric-track" aria-hidden="true"><i id="metric-coverage-bar" style="width: 91%"></i></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-topline"><span>待處理風險</span><span class="metric-delta warning" id="metric-risk-label">3 高風險</span></div>
+            <div class="metric-value"><strong id="metric-findings">10</strong><span>件</span></div>
+            <div class="risk-segments" aria-hidden="true"><i class="high"></i><i class="medium"></i><i class="low"></i></div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-topline"><span>控制成熟度</span><span class="metric-delta neutral">本季</span></div>
+            <div class="metric-value"><strong id="metric-maturity">76</strong><span>/ 100</span></div>
+            <svg class="metric-sparkline" viewBox="0 0 160 28" role="img" aria-label="成熟度近期呈上升趨勢">
+              <path d="M2 24 C20 23, 22 19, 40 20 S64 13, 80 16 S104 8, 122 10 S142 3, 158 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M2 24 C20 23, 22 19, 40 20 S64 13, 80 16 S104 8, 122 10 S142 3, 158 5 L158 28 L2 28 Z" fill="currentColor" opacity=".08"/>
+            </svg>
+          </article>
+        </section>
+
+        <section class="control-grid">
+          <aside id="agent-fleet" class="panel agent-panel" data-workspace="agents">
+            <div class="panel-heading">
+              <div><span class="panel-kicker">AGENT FLEET</span><h2>自查 Agent</h2></div>
+              <span class="live-count"><i></i> 5 ONLINE</span>
+            </div>
+            <p class="panel-intro">選擇 Agent，查看該領域的即時任務與查核發現。</p>
+            <div class="agent-list" id="agents"></div>
+          </aside>
+
+          <section class="panel conversation-panel" data-workspace="chat">
+            <div class="conversation-header">
+              <div class="active-agent-identity">
+                <span class="agent-orb" id="active-agent-initials">PR</span>
+                <div><span class="panel-kicker">ACTIVE SESSION</span><h2 id="active-agent-name">採購風險 Agent</h2></div>
+              </div>
+              <div class="session-meta"><span><i class="status-beacon"></i> 執行中</span><span id="session-id">SID-PR-0821</span></div>
+            </div>
+            <div class="tabs" id="tabs" role="tablist" aria-label="查核視角"></div>
+            <div class="dialogue" id="dialogue" aria-live="polite" aria-label="主管與 Agent 對話紀錄"></div>
+            <form class="composer" id="composer">
+              <label class="sr-only" for="prompt">輸入給自行查核 Agent 的指令</label>
+              <span class="composer-spark" aria-hidden="true">✦</span>
+              <input id="prompt" type="text" autocomplete="off" placeholder="輸入查核要求，例如：產出高管三點摘要與改善建議">
+              <button class="send" type="submit" aria-label="送出查核指令"><span>送出</span><span aria-hidden="true">↗</span></button>
+            </form>
+          </section>
+
+          <aside id="evidence-trace" class="panel intelligence-panel" data-workspace="output">
+            <div class="panel-heading compact">
+              <div><span class="panel-kicker">RISK INTELLIGENCE</span><h2>AI 運行與產出</h2></div>
+              <button class="more-button" type="button" aria-label="更多產出選項">•••</button>
+            </div>
+            <div class="maturity-card">
+              <div class="score-ring" id="score" style="--score: 76"><span>76</span><small>SCORE</small></div>
+              <div class="maturity-copy"><span class="maturity-label">控制成熟度</span><h3 id="maturity-title">採購風險</h3><p id="maturity-copy">已具備基礎管控，仍需強化高風險例外與補核流程。</p></div>
+            </div>
+            <div class="coverage-block">
+              <div><span>證據完整度</span><strong id="coverage-value">91%</strong></div>
+              <div class="coverage-track"><i id="coverage-bar" style="width: 91%"></i></div>
+              <p id="coverage-copy">已取得 41 / 45 項必要證據</p>
+            </div>
+            <section class="workflow-section" aria-labelledby="workflow-title">
+              <div class="section-row"><h3 id="workflow-title">查核執行軌跡</h3><span id="workflow-progress">2 / 4 完成</span></div>
+              <div class="steps" id="steps"></div>
+            </section>
+            <section id="risk-findings" class="finding-section" aria-labelledby="finding-title">
+              <div class="section-row"><h3 id="finding-title">優先風險發現</h3><span id="finding-count">2 FINDINGS</span></div>
+              <div class="alerts" id="alerts"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script src="./src/app.js"></script>
+</body>
+</html>
